@@ -1,7 +1,7 @@
 # Diseases-Prediction-Using-Machine-Learning
 Disease prediction using machine learning is used in healthcare to provide accurate and early diagnosis based on patient symptoms. We can build predictive models that identify diseases efficiently. In this article, we will explore the end-to-end implementation of such a system.
 
-#Step 1: Import Libraries
+**#Step 1: Import Libraries**
 We will import all the necessary libraries like pandas, Numpy, scipy, matplotlib, seaborn and scikit learn.
 
 import numpy as np
@@ -15,7 +15,7 @@ from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix
-#Step 2: Reading the dataset
+**#Step 2: Reading the dataset**
 In this step we load the dataset and encode disease labels into numbers and visualize class distribution to check for imbalance. We then use RandomOverSampler to balance the dataset by duplicating minority classes and ensuring all diseases have equal samples for fair and effective model training.
 
 data = pd.read_csv('improved_disease_dataset.csv')
@@ -35,11 +35,11 @@ ros = RandomOverSampler(random_state=42)
 X_resampled, y_resampled = ros.fit_resample(X, y)
 
 print("Resampled Class Distribution:\n", pd.Series(y_resampled).value_counts())
-#Output: 
+**#Output: **
 
 Screenshot-2025-04-11-133957
 Dataset Reading
-#Step 3: Cross-Validation with Stratified K-Fold
+**#Step 3: Cross-Validation with Stratified K-Fold**
 We use Stratified K-Fold Cross-Validation to evaluate three machine learning models. The number of splits is set to 2 to accommodate smaller class sizes
 
 
@@ -79,13 +79,13 @@ for model_name, model in models.items():
         print("=" * 50)
         print(f"Model: {model_name} failed with error:")
         print(e)
-#Output:
+**#Output:**
 
 Screenshot-2025-04-11-135306
 Cross Validation Output
 The output shows the evaluation results for three models SVC, Gaussian Naive Bayes and Random Forest using cross-validation. Each model has two accuracy scores: 1.0 and approximately 0.976 indicating consistently high performance across all folds.
 
-#Step 4: Training Individual Models and Generating Confusion Matrices
+**#Step 4: Training Individual Models and Generating Confusion Matrices**
 After evaluating the models using cross-validation we train them on the resampled dataset and generate confusion matrix to visualize their performance on the test set.
 
 Support Vector Classifier (SVC)
@@ -102,7 +102,7 @@ plt.title("Confusion Matrix for SVM Classifier")
 plt.show()
 
 print(f"SVM Accuracy: {accuracy_score(y_resampled, svm_preds) * 100:.2f}%")
-#Output: 
+**#Output:** 
 SVM Accuracy: 60.53%
 
 SVM_confusion_matrix
@@ -122,7 +122,7 @@ plt.title("Confusion Matrix for Naive Bayes Classifier")
 plt.show()
 ​
 print(f"Naive Bayes Accuracy: {accuracy_score(y_resampled, nb_preds) * 100:.2f}%")
-#Output:
+**#Output:**
 
 Naive Bayes Accuracy: 37.98%
 
@@ -143,7 +143,7 @@ plt.title("Confusion Matrix for Random Forest Classifier")
 plt.show()
 ​
 print(f"Random Forest Accuracy: {accuracy_score(y_resampled, rf_preds) * 100:.2f}%")
-#Output:
+**#Output:**
 
 Random Forest Accuracy: 68.98%
 
@@ -151,7 +151,7 @@ Random_Forest_matrix
 Random Forest Confusion Matrix
 This confusion matrix shows strong performance with most predictions correctly placed along the diagonal. It has fewer misclassifications than Naive Bayes and is comparable or slightly better than SVM.
 
-#Step 5: Combining Predictions for Robustness
+**#Step 5: Combining Predictions for Robustness**
 To build a robust model, we combine the predictions of all three models by taking the mode of their outputs. This ensures that even if one model makes an incorrect prediction the final output remains accurate.
 
 
@@ -168,7 +168,7 @@ plt.title("Confusion Matrix for Combined Model")
 plt.show()
 ​
 print(f"Combined Model Accuracy: {accuracy_score(y_resampled, final_preds) * 100:.2f}%")
-#Output:
+**#Output:**
 
 Combined Model Accuracy: 60.64%
 
@@ -176,7 +176,7 @@ Combined_model_matrix
 Combined Model Confusion matrix
 Each cell shows how many times a true class (rows) was predicted as another class (columns) with high values on the diagonal indicating correct predictions.
 
-#Step 6: Creating Prediction Function
+**#Step 6: Creating Prediction Function**
 Finally, we create a function that takes symptoms as input and predicts the disease using the combined model. The input symptoms are encoded into numerical format and predictions are generated using the trained models.
 
 
